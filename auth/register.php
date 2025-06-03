@@ -40,6 +40,7 @@ if ( isset($_POST["register"])) {
             <input type="text" name="username" id="username">
         </li>
         <li>
+        <li>
             <label for="password">password :</label>
             <input type="password" name="password" id="password">
         </li>

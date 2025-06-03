@@ -14,7 +14,7 @@ if (isset($_POST["login"])) {
         //cek password
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
-            header("Location: index.php");
+            header("Location: ../dashboard_admin/page.php");
             exit;
         }
     }
@@ -37,7 +37,7 @@ if (isset($_POST["login"])) {
     <h1>Halaman Login</h1>
 
     <?php if (isset($error)) : ?>
-        <p style="color: red; font-style: italic">username / passwor salah!</p>
+        <p style="color: red; font-style: italic">username / password salah!</p>
     <?php endif; ?>
 
     <form action="" method="post">
