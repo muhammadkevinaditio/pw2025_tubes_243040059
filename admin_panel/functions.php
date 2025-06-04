@@ -1,8 +1,4 @@
 <!-- koneksi ke database -->
 <?php
-function koneksi()
-{
-    $conn = mysqli_connect('localhost', 'root', '', 'relawan_connect');
-    return $conn;
-}
+$conn = mysqli_connect('localhost', 'root', '', 'relawan_connect');
 
