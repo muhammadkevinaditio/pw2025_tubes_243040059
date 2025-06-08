@@ -8,8 +8,8 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link" href="index.php">Home</a>
-          <a class="nav-link" href="about.php">About</a>
-          <a class="nav-link" href="contact.php">Contact</a>
+          <a class="nav-link" href="aktivitas.php">Aktivitas</a>
+          <a class="nav-link" href="organisasi.php">organisasi</a>
         </div>
       </div>
     </div>
