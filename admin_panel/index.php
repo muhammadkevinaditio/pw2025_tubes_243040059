@@ -74,7 +74,7 @@ $aktivitas = query("SELECT * FROM aktivitas");
                         <div class="col-6 text-white">
                             <h3 class="fs-2">organisasi</h3>
                             <p class="fs-5"></p>
-                            <p><a href="aktivitas" class="text-white no-decoration">kelola aktivitas</a></p>
+                            <p><a href="aktivitas" class="text-white no-decoration">organisasi</a></p>
                         </div>
                     </div>
                 </div>
