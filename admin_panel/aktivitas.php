@@ -42,14 +42,27 @@ $aktivitas = query("SELECT * FROM aktivitas");
                     <table class="table table-striped table-hover">
                         <tr>
                             <th>#</th>
-                            <th>Nama aktivitas</th>
+                            <!-- <th>Nama aktivitas</th> -->
                             <th>Nama organisasi</th>
                             <th>Email</th>
                             <th>Alamat</th>
-                            <th>Foto</th>
-                            <th>detail</th>
+                            <!-- <th>Foto</th>
+                            <th>detail</th> -->
                             <th>Aksi</th>
                         </tr>
+                        <?php $i = 1;
+                        foreach ($aktivitas as $akt) : ?>
+                            <tr>
+                                <td><?= $i++; ?></td>
+                                <td><?= $akt['nama_organisasi']; ?></td>
+                                <td><?= $akt['email']; ?></td>
+                                <td><?= $akt['alamat']; ?></td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="hapus.php?id=<?= $akt['id']; ?>" onclick="return confirm('Yakin?');" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </table>
                 </div>
             </div>
