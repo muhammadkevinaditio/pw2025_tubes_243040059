@@ -86,79 +86,27 @@ function tambah_aktivitas($data)
     return mysqli_affected_rows($conn);
 }
 
-// Fungsi untuk menambah organisasi baru (sekaligus mendaftarkan user baru)
+// Fungsi untuk menambah organisasi baru (setelah user ada)
 function tambah_organisasi($data)
 {
     $conn = koneksi();
 
-    // 1. Proses Registrasi User
-    $username = strtolower(stripslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["password"]);
-    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
-
-    if (empty($username) || empty($password)) {
-        echo "<script>alert('Username dan password tidak boleh kosong!');</script>";
-        return false;
-    }
-
-    $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'");
-    if (mysqli_fetch_assoc($result)) {
-        echo "<script>alert('Username yang dipilih sudah terdaftar!');</script>";
-        return false;
-    }
-
-    if ($password !== $password2) {
-        echo "<script>alert('Konfirmasi password tidak sesuai!');</script>";
-        return false;
-    }
-
-    $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-
-    mysqli_query($conn, "INSERT INTO user (username, password) VALUES('$username', '$password_hashed')");
-    
-    $new_user_id = 0;
-    if (mysqli_affected_rows($conn) > 0) {
-        $new_user_id = mysqli_insert_id($conn);
-    } else {
-        return false; // Gagal membuat user, hentikan proses
-    }
-
-    // 2. Proses Penambahan Organisasi
+    // Ambil data dari form
+    $user_id = htmlspecialchars($data['user_id']);
     $nama_organisasi = htmlspecialchars($data['nama_organisasi']);
     $alamat = htmlspecialchars($data['alamat']);
-    
-    $query = "INSERT INTO organisasi (nama_organisasi, alamat, user_id)
-              VALUES ('$nama_organisasi', '$alamat', '$new_user_id')";
+
+    // Cek apakah user_id valid
+    if (empty($user_id)) {
+        return false;
+    }
+
+    // Query insert data organisasi dengan user_id yang sudah dipilih
+    $query = "INSERT INTO organisasi (user_id, nama_organisasi, alamat)
+              VALUES 
+                ('$user_id', '$nama_organisasi', '$alamat')";
 
     mysqli_query($conn, $query);
+
     return mysqli_affected_rows($conn);
 }
-
-// Fungsi untuk menghapus data aktivitas
-function hapus_aktivitas($id)
-{
-    $conn = koneksi();
-    mysqli_query($conn, "DELETE FROM aktivitas WHERE id = $id");
-    return mysqli_affected_rows($conn);
-}
-
-// Fungsi untuk menghapus data organisasi (dan user terkait)
-function hapus_organisasi($id)
-{
-    $conn = koneksi();
-    // Opsional: Cari dulu user_id sebelum menghapus organisasi
-    // $org = query("SELECT user_id FROM organisasi WHERE id = $id")[0];
-    // $user_id = $org['user_id'];
-    
-    // Hapus organisasi
-    mysqli_query($conn, "DELETE FROM organisasi WHERE id = $id");
-    
-    // Opsional: Hapus juga user yang terhubung
-    // if($user_id) {
-    //    mysqli_query($conn, "DELETE FROM user WHERE id = $user_id");
-    // }
-    
-    return mysqli_affected_rows($conn);
-}
-
-?>
