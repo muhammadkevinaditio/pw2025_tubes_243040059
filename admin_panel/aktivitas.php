@@ -1,29 +1,31 @@
 <?php
-require 'functions.php';
+// Pastikan tidak ada karakter apapun sebelum baris ini
+session_start();
+
+// Cek 1: Apakah pengguna sudah login?
+if (!isset($_SESSION['login'])) {
+    header("Location: auth/login.php"); 
+    exit;
+}
+
+// Cek 2: Apakah role pengguna adalah 'admin'?
+if ($_SESSION['role'] !== 'admin') {
+    die("Akses ditolak. Anda tidak memiliki hak untuk mengunjungi halaman ini. <a href='auth/logout.php'>Logout</a>");
+    exit;
+}
+
+// Jika lolos kedua pemeriksaan, lanjutkan memuat halaman
+require_once 'functions.php';
 $title = 'Data Aktivitas';
 
 // Logika Pencarian
 if (isset($_GET['keyword'])) {
     $keyword = $_GET['keyword'];
-    // Panggil fungsi pencarian baru
     $aktivitas_list = cari_aktivitas($keyword);
 } else {
     // Jika tidak ada pencarian, tampilkan semua data
     $aktivitas_list = query("SELECT * FROM aktivitas ORDER BY id DESC");
 }
-?>
-<?php
-session_start();
-
-if (!isset($_SESSION['login'])) {
-    // Jika belum login, tendang ke halaman login
-    header("Location: ../auth/login.php");
-    exit;
-}
-
-// Baru require functions.php setelah cek session
-require_once 'functions.php';
-// ... sisa kode asli dari masing-masing file ...
 ?>
 
 <?php require('partials/header.php'); ?>
@@ -49,7 +51,7 @@ require_once 'functions.php';
                 <form action="" method="get">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Cari berdasarkan judul atau detail..." name="keyword" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>" autofocus>
-                        <button class="btn btn-success" type="submit">Cari</button>
+                        <button class="btn btn-primary" type="submit">Cari</button>
                     </div>
                 </form>
             </div>

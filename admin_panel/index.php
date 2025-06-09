@@ -1,11 +1,20 @@
 <?php
-// Mulai session dan cek status login
 session_start();
+
+// Cek 1: Apakah pengguna sudah login?
 if (!isset($_SESSION['login'])) {
-    header("Location: ../auth/login.php");
+    header("Location: auth/login.php"); // Path jika auth di dalam admin_panel
     exit;
 }
 
+// Cek 2: Apakah role pengguna adalah 'admin'?
+if ($_SESSION['role'] !== 'admin') {
+    // Jika bukan admin, hentikan akses dan beri pesan
+    die("Akses ditolak. Anda tidak memiliki hak untuk mengunjungi halaman ini. <a href='auth/logout.php'>Logout</a>");
+    exit;
+}
+
+// Jika lolos kedua pemeriksaan, lanjutkan memuat halaman
 require_once 'functions.php';
 $title = 'Dashboard';
 
