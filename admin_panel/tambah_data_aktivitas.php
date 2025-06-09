@@ -1,18 +1,20 @@
 <?php
 require 'functions.php';
-$title = 'Form Tambah Data Organisasi';
+$title = 'Form Tambah Data Aktivitas';
 
+// Ambil data organisasi untuk ditampilkan di dropdown
+$organisasi_list = query("SELECT id, nama_organisasi FROM organisasi");
+
+// Cek apakah tombol submit sudah ditekan
 if (isset($_POST['submit'])) {
-    if (tambah_organisasi($_POST) > 0) {
+    if (tambah_aktivitas($_POST) > 0) { // Memanggil fungsi yang sudah diperbaiki
         echo "<script>
-            alert('Data organisasi dan user baru berhasil ditambahkan!');
-            document.location.href = 'organisasi.php';
+            alert('Data aktivitas berhasil ditambahkan!');
+            document.location.href = 'aktivitas.php';
           </script>";
     } else {
-        // Pesan error lebih spesifik bisa ditambahkan di sini jika perlu
         echo "<script>
-            alert('Data organisasi gagal ditambahkan! Pastikan username belum terdaftar.');
-            document.location.href = 'tambah_data_organisasi.php';
+            alert('Data aktivitas gagal ditambahkan!');
           </script>";
     }
 }
@@ -24,39 +26,43 @@ if (isset($_POST['submit'])) {
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h1 class="mb-3">Form Tambah Data Organisasi</h1>
-            <p>Lengkapi profil organisasi beserta informasi login yang akan digunakan.</p>
+            <h1 class="mb-3">Form Tambah Data Aktivitas</h1>
             <div class="card p-4">
-                <form action="" method="post">
-                    <h5 class="mb-3">Profil Organisasi</h5>
+                <form action="" method="post" enctype="multipart/form-data">
+                    
                     <div class="mb-3">
-                        <label for="nama_organisasi" class="form-label">Nama Organisasi</label>
-                        <input type="text" class="form-control" id="nama_organisasi" name="nama_organisasi" required autofocus>
+                        <label for="organisasi_id" class="form-label">Pilih Organisasi Penyelenggara</label>
+                        <select class="form-select" name="organisasi_id" id="organisasi_id" required>
+                            <option value="" disabled selected>-- Pilih dari daftar --</option>
+                            <?php foreach ($organisasi_list as $org) : ?>
+                                <option value="<?= htmlspecialchars($org['id']); ?>"><?= htmlspecialchars($org['nama_organisasi']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nama_organisasi" class="form-label">Nama Aktivitas / Judul</label>
+                        <input type="text" class="form-control" id="nama_organisasi" name="nama_organisasi" required>
                     </div>
                     <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat Organisasi</label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
+                        <label for="email" class="form-label">Email Kontak</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
                     </div>
-
-                    <hr class="my-4">
-
-                    <h5 class="mb-3">Akun Login untuk Organisasi</h5>
-                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                    <div class="mb-3">
+                        <label for="alamat" class="form-label">Lokasi Aktivitas</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" required>
                     </div>
-                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="mb-3">
+                        <label for="detail" class="form-label">Detail Lengkap Aktivitas</label>
+                        <textarea class="form-control" id="detail" name="detail" rows="4" required></textarea>
                     </div>
-                     <div class="mb-3">
-                        <label for="password2" class="form-label">Konfirmasi Password</label>
-                        <input type="password" class="form-control" id="password2" name="password2" required>
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Poster / Foto Aktivitas</label>
+                        <input type="file" class="form-control" id="foto" name="foto">
                     </div>
-
                     <div class="my-4 d-grid gap-2">
-                        <button type="submit" name="submit" class="btn btn-success">Tambah Data & Buat Akun</button>
-                        <a href="organisasi.php" class="btn btn-secondary">Kembali</a>
+                        <button type="submit" name="submit" class="btn btn-success">Tambah Data Aktivitas</button>
+                        <a href="aktivitas.php" class="btn btn-secondary">Kembali</a>
                     </div>
                 </form>
             </div>
