@@ -1,18 +1,19 @@
 <?php
 require 'functions.php';
 
-// Pastikan ada parameter id yang dikirim
+// 1. Cek apakah ada parameter id yang dikirim melalui URL
 if (!isset($_GET['id'])) {
-    // Jika tidak ada id, kembalikan ke halaman organisasi
+    // Jika tidak ada, paksa kembali ke halaman utama organisasi
     header("Location: organisasi.php");
     exit;
 }
 
-// Ambil id dari URL
+// 2. Ambil id dari URL
 $id = $_GET['id'];
 
-// Panggil fungsi hapus_organisasi
+// 3. Panggil fungsi hapus_organisasi dan cek hasilnya
 if (hapus_organisasi($id) > 0) {
+    // Jika berhasil
     echo "
         <script>
             alert('Data organisasi berhasil dihapus!');
@@ -20,6 +21,7 @@ if (hapus_organisasi($id) > 0) {
         </script>
     ";
 } else {
+    // Jika gagal
     echo "
         <script>
             alert('Data organisasi gagal dihapus!');
