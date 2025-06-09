@@ -1,26 +1,6 @@
-<!-- koneksi functions -->
 <?php
-require 'functions.php';
-$title = 'Data Aktivitas';
-$aktivitas = query("SELECT * FROM aktivitas");
-?>
-<?php
+// Mulai session dan cek status login
 session_start();
-
-if (!isset($_SESSION['login'])) {
-    // Jika belum login, tendang ke halaman login
-    header("Location: ../auth/login.php");
-    exit;
-}
-
-// Baru require functions.php setelah cek session
-require_once 'functions.php';
-// ... sisa kode asli dari masing-masing file ...
-?>
-
-<?php
-session_start();
-
 if (!isset($_SESSION['login'])) {
     header("Location: ../auth/login.php");
     exit;
@@ -28,92 +8,66 @@ if (!isset($_SESSION['login'])) {
 
 require_once 'functions.php';
 $title = 'Dashboard';
+
+// Query untuk menghitung jumlah data
+$jumlah_aktivitas = count(query("SELECT * FROM aktivitas"));
+$jumlah_organisasi = count(query("SELECT * FROM organisasi"));
 ?>
 
 <?php require('partials/header.php'); ?>
 <?php require('partials/navbar.php'); ?>
 
-<div class="container mt-5">
-    <h1>Selamat Datang di Halaman Admin!</h1>
-    <p>Halo, <?= htmlspecialchars($_SESSION['username']); ?>. Anda berhasil login.</p>
-</div>
-
-<?php require('partials/header.php'); ?>
-<?php require('partials/navbar.php'); ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>relawan_connect</title>
-</head>
-
 <style>
-    .square {
-        border: solid;
-    }
-
-    .summary-aktivitas {
-        background-color: #188639;
+    .summary-box {
+        color: white;
         border-radius: 15px;
+        padding: 20px;
+        transition: transform 0.2s;
     }
-
-    .summary-organisasi {
-        background-color: #af4d0c;
-        border-radius: 15px;
+    .summary-box:hover {
+        transform: scale(1.05);
     }
-
-    .no-decoration:hover {
-        text-decoration: none;
-        color: salmon;
-    }
+    .summary-aktivitas { background-color: #198754; }
+    .summary-organisasi { background-color: #fd7e14; }
+    .summary-box .icon { font-size: 5rem; opacity: 0.8; }
+    .summary-box-link { color: white; text-decoration: none; }
+    .summary-box-link:hover { color: #e9ecef; }
 </style>
 
-<body>
-    <!-- <h2>halo admin</h2> -->
-
-    <!-- summary design -->
-    <div class="container mt-5">
-        <div class="row">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page"><i class="bi bi-house-gear-fill"></i>Home</li>
-                </ol>
-            </nav>
-            <!-- summary-aktivitas -->
-            <div class="col-lg-4 col-md-6 col-12 mb-3">
-                <div class="summary-aktivitas p-3">
-                    <div class="row">
-                        <div class="col-6"></div>
-                        <div><i class="bi bi-clipboard2" style="font-size: 6rem; color: #fff;"></i></div>
-                        <div class="col-6 text-white">
-                            <h3 class="fs-2">aktivitas</h3>
-                            <p class="fs-5"></p>
-                            <p><a href="aktivitas" class="text-white no-decoration">kelola aktivitas</a></p>
-                        </div>
+<div class="container mt-5">
+    <h1 class="mb-4">Selamat Datang, <?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin'; ?>!</h1>
+    
+    <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="summary-box summary-aktivitas">
+                <div class="row">
+                    <div class="col-8">
+                        <h3>Aktivitas</h3>
+                        <h2 class="fs-1 fw-bold"><?= $jumlah_aktivitas; ?></h2>
+                        <a href="aktivitas.php" class="summary-box-link">Kelola Aktivitas &rarr;</a>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-end">
+                        <i class="bi bi-clipboard2-fill icon"></i>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- summary-organisasi/user -->
-            <div class="col-lg-4 col-md-6 col-12 mb-3">
-                <div class="summary-organisasi p-3">
-                    <div class="row">
-                        <div class="col-6"></div>
-                        <div><i class="bi bi-person-arms-up" style="font-size: 6rem; color: #fff;"></i></div>
-                        <div class="col-6 text-white">
-                            <h3 class="fs-2">organisasi</h3>
-                            <p class="fs-5"></p>
-                            <p><a href="aktivitas" class="text-white no-decoration">organisasi</a></p>
-                        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="summary-box summary-organisasi">
+                <div class="row">
+                    <div class="col-8">
+                        <h3>Organisasi</h3>
+                        <h2 class="fs-1 fw-bold"><?= $jumlah_organisasi; ?></h2>
+                        <a href="organisasi.php" class="summary-box-link">Kelola Organisasi &rarr;</a>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-end">
+                        <i class="bi bi-person-arms-up icon"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-<?php require('partials/footer.php'); ?>
+</div>
 
-</html>
+<?php require('partials/footer.php'); ?>

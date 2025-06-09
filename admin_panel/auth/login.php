@@ -1,26 +1,28 @@
 <?php
 session_start(); // Mulai session di baris paling atas
-require '../admin_panel/functions.php'; // Sesuaikan path ke functions.php
-require_once 'functions.php';
+
 // Jika sudah login, redirect ke admin panel
 if (isset($_SESSION["login"])) {
-    header("Location: ../admin_panel/index.php");
+    header("Location: ../index.php");
     exit;
 }
+
+require_once '../functions.php'; // <-- INI YANG BENAR
 
 if (isset($_POST["login"])) {
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $conn = koneksi(); // Panggil fungsi koneksi
+    $conn = koneksi();
 
     $result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
 
     if (mysqli_num_rows($result) === 1) {
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
-            // Set session
+            // --- PERBAIKAN DI SINI ---
+            // Set session login dan username
             $_SESSION["login"] = true;
-            $_SESSION["username"] = $row["username"]; // Simpan username
+            $_SESSION["username"] = $row["username"]; // <-- BARIS INI PENTING
 
             header("Location: ../admin_panel/index.php");
             exit;
@@ -29,6 +31,7 @@ if (isset($_POST["login"])) {
     $error = true;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
