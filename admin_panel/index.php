@@ -4,7 +4,39 @@ require 'functions.php';
 $title = 'Data Aktivitas';
 $aktivitas = query("SELECT * FROM aktivitas");
 ?>
+<?php
+session_start();
 
+if (!isset($_SESSION['login'])) {
+    // Jika belum login, tendang ke halaman login
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+// Baru require functions.php setelah cek session
+require_once 'functions.php';
+// ... sisa kode asli dari masing-masing file ...
+?>
+
+<?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+require_once 'functions.php';
+$title = 'Dashboard';
+?>
+
+<?php require('partials/header.php'); ?>
+<?php require('partials/navbar.php'); ?>
+
+<div class="container mt-5">
+    <h1>Selamat Datang di Halaman Admin!</h1>
+    <p>Halo, <?= htmlspecialchars($_SESSION['username']); ?>. Anda berhasil login.</p>
+</div>
 
 <?php require('partials/header.php'); ?>
 <?php require('partials/navbar.php'); ?>

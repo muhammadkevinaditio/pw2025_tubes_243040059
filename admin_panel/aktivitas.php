@@ -12,6 +12,19 @@ if (isset($_GET['keyword'])) {
     $aktivitas_list = query("SELECT * FROM aktivitas ORDER BY id DESC");
 }
 ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    // Jika belum login, tendang ke halaman login
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+// Baru require functions.php setelah cek session
+require_once 'functions.php';
+// ... sisa kode asli dari masing-masing file ...
+?>
 
 <?php require('partials/header.php'); ?>
 <?php require('partials/navbar.php'); ?>

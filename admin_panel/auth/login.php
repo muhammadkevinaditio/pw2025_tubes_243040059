@@ -1,40 +1,33 @@
 <?php
-require 'function.php';
-
-// Menambahkan session_start() di awal untuk manajemen sesi
-session_start();
-
-// Jika user sudah login, redirect ke admin panel
+session_start(); // Mulai session di baris paling atas
+require '../admin_panel/functions.php'; // Sesuaikan path ke functions.php
+require_once 'functions.php';
+// Jika sudah login, redirect ke admin panel
 if (isset($_SESSION["login"])) {
     header("Location: ../admin_panel/index.php");
     exit;
 }
 
-
 if (isset($_POST["login"])) {
-
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $conn = koneksi(); // Panggil fungsi koneksi
 
     $result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
 
-    // Cek username
     if (mysqli_num_rows($result) === 1) {
-
-        // Cek password
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row["password"])) {
             // Set session
             $_SESSION["login"] = true;
+            $_SESSION["username"] = $row["username"]; // Simpan username
 
             header("Location: ../admin_panel/index.php");
             exit;
         }
     }
-
     $error = true;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

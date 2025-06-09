@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Fungsi untuk koneksi ke database
 function koneksi()

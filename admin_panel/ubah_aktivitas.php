@@ -27,6 +27,19 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+<?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    // Jika belum login, tendang ke halaman login
+    header("Location: ../auth/login.php");
+    exit;
+}
+
+// Baru require functions.php setelah cek session
+require 'functions.php';
+// ... sisa kode asli dari masing-masing file ...
+?>
 
 <?php require('partials/header.php'); ?>
 <?php require('partials/navbar.php'); ?>
