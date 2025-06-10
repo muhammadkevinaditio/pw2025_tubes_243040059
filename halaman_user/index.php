@@ -1,33 +1,146 @@
 <?php
-session_start();
+// Kita tetap membutuhkan functions.php dari admin_panel untuk koneksi dan query
+require 'admin_panel/functions.php';
+$aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamat Datang</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Relawan Connect - Cari Aktivitas Sosial</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x600/212529/FFFFFF?text=Ambil+Peran+Jadi+Relawan') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 8rem 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 3.5rem;
+        }
+        .card-activity {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .card-activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .navbar-brand {
+            font-weight: 700;
+        }
+        .btn-main {
+            background-color: #e83e8c; /* Warna pink seperti di referensi */
+            border-color: #e83e8c;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: background-color 0.2s;
+        }
+        .btn-main:hover {
+            background-color: #d1307a;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
-    <?php include 'partials/navbar.php'; ?>
-
-    <div class="container mt-5">
-        <div class="p-5 mb-4 bg-light rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">Selamat Datang di Halaman User</h1>
-                <p class="col-md-8 fs-4">
-                    Ini adalah halaman utama untuk user. Silakan navigasi menggunakan menu di atas.
-                </p>
-                <?php if (!isset($_SESSION['login'])) : ?>
-                    <a href="../auth/login.php" class="btn btn-success btn-lg">Login Sekarang</a>
-                <?php endif; ?>
+    <!-- Navigasi -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">RelawanConnect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Cari Aktivitas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cari Organisasi</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="auth/login.php">Masuk / Buat Akun</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bagian Hero -->
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="display-4">Ambil Peran Jadi Relawan</h1>
+            <p class="lead mb-4">Ubah niat baik jadi aksi baik hari ini</p>
+            <a href="#daftar-aktivitas" class="btn btn-main">Cari Aktivitas</a>
+        </div>
+    </header>
+
+    <!-- Daftar Aktivitas -->
+    <main id="daftar-aktivitas" class="container mt-5 mb-5">
+        <h2 class="text-center mb-4">Aktivitas Terbaru</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            
+            <?php foreach ($aktivitas as $a) : ?>
+            <div class="col">
+                <div class="card h-100 card-activity">
+                    <!-- Path ke gambar sekarang relatif dari root, jadi 'img/' -->
+                    <img src="img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($a['nama_aktivitas']); ?></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($a['nama_organisasi']); ?></h6>
+                        <p class="card-text">
+                            <small class="text-muted"><i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($a['alamat']); ?></small>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                         <a href="detail.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+
+            <?php if (empty($aktivitas)) : ?>
+                <div class="col-12">
+                    <p class="text-center text-muted">Belum ada aktivitas yang tersedia saat ini.</p>
+                </div>
+            <?php endif; ?>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center p-3">
+        <div class="container">
+            <p>&copy; 2025 RelawanConnect. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
