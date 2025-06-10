@@ -1,6 +1,8 @@
 <?php
-// Kita tetap membutuhkan functions.php dari admin_panel untuk koneksi dan query
-require 'admin_panel/functions.php';
+session_start();
+
+// Naik satu level untuk menemukan folder admin_panel
+require '../admin_panel/functions.php';
 $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
 ?>
 <!DOCTYPE html>
@@ -12,6 +14,7 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +27,7 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
             background-color: #f8f9fa;
         }
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x600/212529/FFFFFF?text=Ambil+Peran+Jadi+Relawan') no-repeat center center;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
             background-size: cover;
             color: white;
             padding: 8rem 0;
@@ -52,8 +55,8 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
             font-weight: 700;
         }
         .btn-main {
-            background-color: #e83e8c; /* Warna pink seperti di referensi */
-            border-color: #e83e8c;
+            background-color: #198754;
+            border-color: #198754;
             color: white;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
@@ -61,7 +64,8 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
             transition: background-color 0.2s;
         }
         .btn-main:hover {
-            background-color: #d1307a;
+            background-color: #157347;
+            border-color: #157347;
             color: white;
         }
     </style>
@@ -69,7 +73,7 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
 <body>
 
     <!-- Navigasi -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#">RelawanConnect</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,15 +81,22 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Cari Aktivitas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cari Organisasi</a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="auth/login.php">Masuk / Buat Akun</a>
-                    </li>
+                     <?php if (isset($_SESSION['login'])) : ?>
+                        <!-- JIKA SUDAH LOGIN -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Halo, <?= htmlspecialchars($_SESSION['username']); ?>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                            </ul>
+                        </li>
+                    <?php else : ?>
+                        <!-- JIKA BELUM LOGIN -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="../auth/login.php">Masuk / Buat Akun</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
@@ -108,8 +119,7 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
             <?php foreach ($aktivitas as $a) : ?>
             <div class="col">
                 <div class="card h-100 card-activity">
-                    <!-- Path ke gambar sekarang relatif dari root, jadi 'img/' -->
-                    <img src="img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
+                    <img src="../img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($a['nama_aktivitas']); ?></h5>
                         <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($a['nama_organisasi']); ?></h6>
@@ -118,7 +128,7 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
                         </p>
                     </div>
                     <div class="card-footer bg-white border-top-0">
-                         <a href="detail.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
+                         <a href="../detail.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
                     </div>
                 </div>
             </div>
