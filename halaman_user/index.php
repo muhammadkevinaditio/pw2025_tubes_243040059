@@ -88,7 +88,7 @@ $aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
                                 Halo, <?= htmlspecialchars($_SESSION['username']); ?>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                                <li><a class="dropdown-item" href="auth/logout.php">Logout</a></li>
                             </ul>
                         </li>
                     <?php else : ?>
