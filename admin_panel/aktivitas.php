@@ -78,7 +78,7 @@ if (isset($_GET['keyword'])) {
                         <?php $i = 1; foreach ($aktivitas_list as $akt) : ?>
                             <tr>
                                 <td><?= $i++; ?></td>
-                                <td><?= htmlspecialchars($akt['nama_organisasi']); ?></td>
+                                <td><?= htmlspecialchars($akt['nama_aktivitas']); ?></td>
                                 <td><?= htmlspecialchars($akt['email']); ?></td>
                                 <td><?= htmlspecialchars($akt['alamat']); ?></td>
                                 <td><img src="img/<?= htmlspecialchars($akt['foto']); ?>" alt="Foto" class="table-img"></td>

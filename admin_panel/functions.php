@@ -67,10 +67,11 @@ function tambah_aktivitas($data)
     $conn = koneksi();
 
     $organisasi_id = htmlspecialchars($data['organisasi_id']);
-    $nama_organisasi = htmlspecialchars($data['nama_organisasi']);
+    $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
     $alamat = htmlspecialchars($data['alamat']);
     $detail = htmlspecialchars($data['detail']);
+    // $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
 
     // Panggil fungsi upload
     $foto = upload();
@@ -78,8 +79,8 @@ function tambah_aktivitas($data)
         return false; // Jika upload gagal, hentikan proses
     }
 
-    $query = "INSERT INTO aktivitas (nama_organisasi, email, alamat, foto, detail, organisasi_id)
-              VALUES ('$nama_organisasi', '$email', '$alamat', '$foto', '$detail', '$organisasi_id')";
+    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail,organisasi_id)
+              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail',$organisasi_id)";
 
     mysqli_query($conn, $query);
     return mysqli_affected_rows($conn);
@@ -122,7 +123,7 @@ function hapus_aktivitas($id)
             unlink('img/' . $foto);
         }
     }
-    
+
     mysqli_query($conn, "DELETE FROM aktivitas WHERE id = $id");
     return mysqli_affected_rows($conn);
 }
@@ -143,7 +144,7 @@ function ubah_aktivitas($data)
     // Ambil data dari form
     $id = $data['id'];
     $organisasi_id = htmlspecialchars($data['organisasi_id']);
-    $nama_organisasi = htmlspecialchars($data['nama_organisasi']);
+    $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
     $alamat = htmlspecialchars($data['alamat']);
     $detail = htmlspecialchars($data['detail']);
@@ -169,7 +170,7 @@ function ubah_aktivitas($data)
     // Query update data
     $query = "UPDATE aktivitas SET
                 organisasi_id = '$organisasi_id',
-                nama_organisasi = '$nama_organisasi',
+                nama_aktivitas = '$nama_aktivitas',
                 email = '$email',
                 alamat = '$alamat',
                 detail = '$detail',
@@ -211,12 +212,12 @@ function cari_aktivitas($keyword)
 
     $query = "SELECT * FROM aktivitas
               WHERE
-                nama_organisasi LIKE '%$keyword%' OR
+                nama_aktivitas LIKE '%$keyword%' OR
                 detail LIKE '%$keyword%' OR
                 alamat LIKE '%$keyword%'
               ORDER BY id DESC
             ";
-    
+
     return query($query);
 }
 
@@ -231,7 +232,6 @@ function cari_organisasi($keyword)
                 alamat LIKE '%$keyword_escaped%'
               ORDER BY id DESC
             ";
-    
+
     return query($query);
 }
-?>

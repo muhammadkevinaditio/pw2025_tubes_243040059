@@ -75,7 +75,7 @@ require_once 'functions.php';
 
                     <div class="mb-3">
                         <label for="nama_organisasi" class="form-label">Judul Aktivitas</label>
-                        <input type="text" class="form-control" id="nama_organisasi" name="nama_organisasi" required value="<?= htmlspecialchars($aktivitas['nama_organisasi']); ?>">
+                        <input type="text" class="form-control" id="nama_aktivitas" name="nama_aktivitas" required value="<?= htmlspecialchars($aktivitas['nama_aktivitas']); ?>">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email Kontak Aktivitas</label>
