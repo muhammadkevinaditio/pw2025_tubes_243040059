@@ -33,7 +33,6 @@ require 'partials/navbar.php';
                         </p>
                     </div>
                     <div class="card-footer bg-white border-top-0">
-                         <a href="../detail.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
                     </div>
                 </div>
             </div>

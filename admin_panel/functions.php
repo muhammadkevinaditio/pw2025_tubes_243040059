@@ -1,5 +1,4 @@
 <?php
-
 // Fungsi untuk koneksi ke database
 function koneksi()
 {
@@ -67,6 +66,7 @@ function tambah_aktivitas($data)
     $conn = koneksi();
 
     $organisasi_id = htmlspecialchars($data['organisasi_id']);
+    $id_user = 6;
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
     $alamat = htmlspecialchars($data['alamat']);
@@ -79,8 +79,8 @@ function tambah_aktivitas($data)
         return false; // Jika upload gagal, hentikan proses
     }
 
-    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail,organisasi_id)
-              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail',$organisasi_id)";
+    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail,organisasi_id,id_user)
+              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail',$organisasi_id,$id_user)";
 
     mysqli_query($conn, $query);
     return mysqli_affected_rows($conn);
@@ -144,6 +144,7 @@ function ubah_aktivitas($data)
     // Ambil data dari form
     $id = $data['id'];
     $organisasi_id = htmlspecialchars($data['organisasi_id']);
+    $id_user = 6;
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
     $alamat = htmlspecialchars($data['alamat']);
@@ -170,6 +171,7 @@ function ubah_aktivitas($data)
     // Query update data
     $query = "UPDATE aktivitas SET
                 organisasi_id = '$organisasi_id',
+                id_user = '$id_user',
                 nama_aktivitas = '$nama_aktivitas',
                 email = '$email',
                 alamat = '$alamat',
