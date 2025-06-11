@@ -237,3 +237,29 @@ function cari_organisasi($keyword)
 
     return query($query);
 }
+
+// uploud lowongan dari user
+function tambah_lowongan($data)
+{
+    $conn = koneksi();
+
+    $organisasi_id = htmlspecialchars($data['organisasi_id']);
+    $id_user = 8;
+    $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
+    $email = htmlspecialchars($data['email']);
+    $alamat = htmlspecialchars($data['alamat']);
+    $detail = htmlspecialchars($data['detail']);
+    // $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
+
+    // Panggil fungsi upload
+    $foto = upload();
+    if (!$foto) {
+        return false; // Jika upload gagal, hentikan proses
+    }
+
+    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail,organisasi_id,id_user)
+              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail',$organisasi_id,$id_user)";
+
+    mysqli_query($conn, $query);
+    return mysqli_affected_rows($conn);
+}

@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+//  untuk menemukan folder admin_panel
+require '../admin_panel/functions.php';
+$aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
+?>
+
+<?php
 // memanggil header
 require 'partials/header.php';
 
