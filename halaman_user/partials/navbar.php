@@ -8,6 +8,9 @@
                 <ul class="navbar-nav ms-auto">
                      <?php if (isset($_SESSION['login'])) : ?>
                         <!-- JIKA SUDAH LOGIN -->
+                         <div class="nav-item me-3">
+                        <a href="tambah_lowongan.php" class="btn btn-outline-light">Tambah Aktivitas</a>
+                     </div>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Halo, <?= htmlspecialchars($_SESSION['username']); ?>
