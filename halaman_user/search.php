@@ -1,5 +1,7 @@
 <?php
-
+//  untuk menemukan folder admin_panel
+require '../admin_panel/functions.php';
+$aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
 $title = "Cari Aktivitas"; // Set judul halaman
 $aktivitas = []; // Inisialisasi variabel agar tidak error
 $keyword = '';

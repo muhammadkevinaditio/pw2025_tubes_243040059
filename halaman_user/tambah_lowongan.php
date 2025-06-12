@@ -23,7 +23,7 @@ if (isset($_POST["submit"])) {
     // Panggil fungsi untuk menambah data dari functions.php
     // Anggap nama fungsinya adalah tambahAktivitas()
     // Fungsi ini akan menangani validasi, upload gambar, dan insert ke database
-    if (tambah_aktivitas($_POST) > 0) {
+    if (tambah_lowongan($_POST) > 0) {
         // Jika berhasil, tampilkan pesan sukses dengan JavaScript dan redirect
         echo "
             <script>

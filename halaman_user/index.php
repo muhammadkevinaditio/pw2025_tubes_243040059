@@ -32,7 +32,7 @@ require 'partials/navbar.php';
             <?php foreach ($aktivitas as $a) : ?>
             <div class="col">
                 <div class="card h-100 card-activity">
-                    <img src="../admin_panel/img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
+                    <img src="../img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?= htmlspecialchars($a['nama_aktivitas']); ?></h5>
                         <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($a['email']); ?></h6>

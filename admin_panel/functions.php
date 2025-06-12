@@ -52,7 +52,7 @@ function upload()
     $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
 
     // Pindahkan file ke folder tujuan
-    if (move_uploaded_file($tmpName, 'img/' . $namaFileBaru)) {
+    if (move_uploaded_file($tmpName, '../img/' . $namaFileBaru)) {
         return $namaFileBaru;
     } else {
         echo "<script>alert('Error: Gagal memindahkan file gambar.');</script>";
@@ -243,7 +243,7 @@ function tambah_lowongan($data)
 {
     $conn = koneksi();
 
-    $organisasi_id = htmlspecialchars($data['organisasi_id']);
+    $organisasi_id = 2;
     $id_user = 8;
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
