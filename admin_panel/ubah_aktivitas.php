@@ -92,7 +92,7 @@ require_once 'functions.php';
                     <div class="mb-3">
                         <label for="foto" class="form-label">Poster / Foto Aktivitas</label>
                         <br>
-                        <img src="img/<?= htmlspecialchars($aktivitas['foto']); ?>" width="120" class="mb-2">
+                        <img src="../img/<?= htmlspecialchars($aktivitas['foto']); ?>" width="120" class="mb-2">
                         <input type="file" class="form-control" id="foto" name="foto">
                         <small class="form-text text-muted">Biarkan kosong jika tidak ingin mengubah foto.</small>
                     </div>

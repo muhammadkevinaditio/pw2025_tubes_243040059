@@ -119,8 +119,8 @@ function hapus_aktivitas($id)
     if ($aktivitas) {
         $foto = $aktivitas[0]['foto'];
         // Jika nama foto bukan default, hapus filenya dari folder img
-        if ($foto != 'nophoto.jpg' && file_exists('img/' . $foto)) {
-            unlink('img/' . $foto);
+        if ($foto != 'nophoto.jpg' && file_exists('../img/' . $foto)) {
+            unlink('../img/' . $foto);
         }
     }
 
@@ -163,8 +163,8 @@ function ubah_aktivitas($data)
             return false;
         }
         // Hapus file foto lama jika bukan gambar default
-        if ($fotoLama != 'nophoto.jpg' && file_exists('img/' . $fotoLama)) {
-            unlink('img/' . $fotoLama);
+        if ($fotoLama != 'nophoto.jpg' && file_exists('../img/' . $fotoLama)) {
+            unlink('../img/' . $fotoLama);
         }
     }
 

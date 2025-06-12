@@ -81,7 +81,7 @@ if (isset($_GET['keyword'])) {
                                 <td><?= htmlspecialchars($akt['nama_aktivitas']); ?></td>
                                 <td><?= htmlspecialchars($akt['email']); ?></td>
                                 <td><?= htmlspecialchars($akt['alamat']); ?></td>
-                                <td><img src="img/<?= htmlspecialchars($akt['foto']); ?>" alt="Foto" class="table-img"></td>
+                                <td><img src="../img/<?= htmlspecialchars($akt['foto']); ?>" alt="Foto" class="table-img"></td>
                                 <td><?= htmlspecialchars($akt['detail']); ?></td>
                                 <td>
                                     <a href="ubah_aktivitas.php?id=<?= $akt['id']; ?>" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></a>
