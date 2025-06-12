@@ -52,7 +52,7 @@ function upload()
     $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
 
     // Pindahkan file ke folder tujuan
-    if (move_uploaded_file($tmpName, '../img/' . $namaFileBaru)) {
+    if (move_uploaded_file($tmpName, '../img/'. $namaFileBaru)) {
         return $namaFileBaru;
     } else {
         echo "<script>alert('Error: Gagal memindahkan file gambar.');</script>";

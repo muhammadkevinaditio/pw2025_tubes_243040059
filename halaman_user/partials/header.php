@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relawan Connect - Cari Aktivitas Sosial</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +20,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8f9fa;
         }
+
         .hero-section {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
             background-size: cover;
@@ -26,27 +28,33 @@
             padding: 8rem 0;
             text-align: center;
         }
+
         .hero-section h1 {
             font-weight: 700;
             font-size: 3.5rem;
         }
+
         .card-activity {
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             border: none;
             border-radius: 15px;
             overflow: hidden;
         }
+
         .card-activity:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
+
         .card-img-top {
             height: 200px;
             object-fit: cover;
         }
+
         .navbar-brand {
             font-weight: 700;
         }
+
         .btn-main {
             background-color: #198754;
             border-color: #198754;
@@ -56,10 +64,45 @@
             border-radius: 50px;
             transition: background-color 0.2s;
         }
+
         .btn-main:hover {
             background-color: #157347;
             border-color: #157347;
             color: white;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .card-activity {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-activity .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .info-message {
+            border: 1px dashed #ccc;
+            padding: 3rem;
+            border-radius: 15px;
+            background-color: #f8f9fa;
+        }
+
+        main {
+            flex-grow: 1;
         }
     </style>
 </head>

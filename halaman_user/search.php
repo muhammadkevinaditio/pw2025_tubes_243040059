@@ -1,66 +1,83 @@
 <?php
-//  untuk menemukan folder admin_panel
 require '../admin_panel/functions.php';
-$aktivitas = query("SELECT * FROM aktivitas ORDER BY id DESC");
-$title = "Cari Aktivitas"; // Set judul halaman
-$aktivitas = []; // Inisialisasi variabel agar tidak error
+
+$title = "Cari Aktivitas";
+$aktivitas = []; 
 $keyword = '';
 
-// Panggil header.php, sudah termasuk functions.php di dalamnya
-require 'partials/header.php';
-
-// Logika Pencarian
 if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
-    // Jika ada keyword pencarian, panggil fungsi cari
     $keyword = $_GET['keyword'];
-    // PASTIKAN fungsi cari_aktivitas() di functions.php sudah diperbaiki
     $aktivitas = cari_aktivitas($keyword); 
 }
-// Jika tidak ada keyword, halaman akan menampilkan form dan pesan default saja.
+
+require 'partials/header.php';
+require 'partials/navbar.php'; 
 ?>
 
-<?php require 'partials/navbar.php'; // Panggil Navbar ?>
-
-<main class="container mt-5 mb-5 flex-grow-1">
-
-    <h2 class="text-center mb-4">Cari Aktivitas Apapun</h2>
+<main class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-5 fw-bold">Cari Aktivitas Apapun</h1>
+            <p class="lead text-muted mb-4">Temukan kegiatan kerelawanan yang sesuai dengan minat Anda di seluruh Indonesia.</p>
+        </div>
+    </div>
 
     <div class="row justify-content-center mb-5">
-        <div class="col-md-8">
-            <form action="search.php" method="get" class="d-flex">
-                <input type="text" class="form-control form-control-lg me-2" name="keyword" placeholder="Cari berdasarkan nama, lokasi..." value="<?= htmlspecialchars($keyword); ?>" autofocus>
-                <button class="btn btn-success btn-lg" type="submit">Cari</button>
+        <div class="col-lg-8">
+            <form action="search.php" method="get" class="d-flex shadow-sm">
+                <input type="text" class="form-control form-control-lg" name="keyword" placeholder="Ketik nama aktivitas, lokasi, atau topik..." value="<?= htmlspecialchars($keyword); ?>" autofocus>
+                <button class="btn btn-success btn-lg" type="submit" style="white-space: nowrap;"><i class="bi bi-search"></i> Cari</button>
             </form>
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <!-- Container untuk hasil pencarian -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
         
         <?php if (!empty($aktivitas)) : ?>
+            <!-- JIKA AKTIVITAS DITEMUKAN -->
             <?php foreach ($aktivitas as $a) : ?>
             <div class="col">
                 <div class="card h-100 card-activity">
-                    <img src="../admin_panel/img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
-                    <div class="card-body">
+                    <img src="../img/<?= htmlspecialchars($a['foto']); ?>" class="card-img-top" alt="<?= htmlspecialchars($a['nama_aktivitas']); ?>">
+                    <div class="card-body d-flex flex-column">
                         <h5 class="card-title"><?= htmlspecialchars($a['nama_aktivitas']); ?></h5>
-                        <h6 class="card-subtitle mb-2 text-muted"><?= htmlspecialchars($a['email']); ?></h6>
-                        <p class="card-text">
-                            <small class="text-muted"><i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($a['alamat']); ?></small>
+                        <div class="mb-2">
+                            <span class="badge bg-success-subtle text-success-emphasis rounded-pill">
+                                <i class="bi bi-geo-alt-fill"></i> <?= htmlspecialchars($a['alamat']); ?>
+                            </span>
+                        </div>
+                        <p class="card-text text-muted small">
+                            <?php
+                                // Potong deskripsi agar tidak terlalu panjang
+                                echo htmlspecialchars(mb_strimwidth($a['detail'], 0, 100, "..."));
+                            ?>
                         </p>
-                    </div>
-                    <div class="card-footer bg-white border-top-0">
-                         <a href="../detail.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
+                        <div class="mt-auto">
+                           <a href="detail_aktivitas.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <?php endforeach; ?>
+
         <?php elseif (isset($_GET['keyword'])) : ?>
-            <div class="col-12">
-                <p class="text-center text-muted">Aktivitas dengan kata kunci "<?= htmlspecialchars($keyword); ?>" tidak ditemukan.</p>
+            <!-- JIKA KEYWORD DIISI TAPI TIDAK ADA HASIL -->
+            <div class="col-lg-8">
+                <div class="info-message text-center">
+                    <h4 class="text-muted">Oops!</h4>
+                    <p class="mb-0">Aktivitas dengan kata kunci "<strong><?= htmlspecialchars($keyword); ?></strong>" tidak dapat kami temukan.</p>
+                    <p><a href="search.php" class="text-success">Coba lagi</a> dengan kata kunci lain.</p>
+                </div>
             </div>
+
         <?php else : ?>
-             <div class="col-12">
-                <p class="text-center text-muted">Silakan masukkan kata kunci untuk memulai pencarian.</p>
+            <!-- TAMPILAN AWAL SEBELUM PENCARIAN -->
+             <div class="col-lg-8">
+                <div class="info-message text-center">
+                    <h4 class="text-muted">Mulai Mencari</h4>
+                    <p>Silakan masukkan kata kunci pada kolom pencarian di atas untuk menemukan aktivitas yang Anda inginkan.</p>
+                </div>
             </div>
         <?php endif; ?>
     </div>
