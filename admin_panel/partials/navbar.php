@@ -13,7 +13,7 @@
           <a class="nav-link" href="aktivitas.php">Aktivitas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="organisasi.php">Organisasi</a>
+          <a class="nav-link" href="kategori.php">Kategori</a>
         </li>
       </ul>
       

@@ -21,7 +21,7 @@ function query($query)
     return $rows;
 }
 
-// Fungsi untuk menangani upload file gambar
+// Fungsi untuk menangani upload file gambar (Tidak ada perubahan di sini)
 function upload()
 {
     $namaFile = $_FILES['foto']['name'];
@@ -29,12 +29,10 @@ function upload()
     $error = $_FILES['foto']['error'];
     $tmpName = $_FILES['foto']['tmp_name'];
 
-    // Cek 1: Apakah ada gambar yang diupload?
-    if ($error === 4) { // 4 artinya tidak ada file
-        return 'nophoto.jpg'; // Kembalikan nama gambar default
+    if ($error === 4) {
+        return 'nophoto.jpg';
     }
 
-    // Cek 2: Validasi ekstensi file
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
     $ekstensiGambar = strtolower(pathinfo($namaFile, PATHINFO_EXTENSION));
     if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
@@ -42,16 +40,13 @@ function upload()
         return false;
     }
 
-    // Cek 3: Validasi ukuran file (misal: maks 2MB)
     if ($ukuranFile > 2000000) {
         echo "<script>alert('Error: Ukuran gambar terlalu besar (maks 2MB).');</script>";
         return false;
     }
 
-    // Lolos pengecekan, generate nama file baru yang unik
     $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
 
-    // Pindahkan file ke folder tujuan
     if (move_uploaded_file($tmpName, '../img/'. $namaFileBaru)) {
         return $namaFileBaru;
     } else {
@@ -60,65 +55,55 @@ function upload()
     }
 }
 
+
 // Fungsi untuk menambah data aktivitas baru
 function tambah_aktivitas($data)
 {
     $conn = koneksi();
 
-    $organisasi_id = htmlspecialchars($data['organisasi_id']);
-    $id_user = 6;
+    // PERUBAHAN: Mengambil kategori_id, bukan organisasi_id
+    $kategori_id = htmlspecialchars($data['kategori_id']); 
+    $id_user = 6; // Nanti bisa diganti dengan ID dari session
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
     $alamat = htmlspecialchars($data['alamat']);
     $detail = htmlspecialchars($data['detail']);
-    // $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
 
-    // Panggil fungsi upload
     $foto = upload();
     if (!$foto) {
-        return false; // Jika upload gagal, hentikan proses
-    }
-
-    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail,organisasi_id,id_user)
-              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail',$organisasi_id,$id_user)";
-
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
-}
-
-// Fungsi untuk menambah organisasi baru (setelah user ada)
-function tambah_organisasi($data)
-{
-    $conn = koneksi();
-
-    // Ambil data dari form
-    $user_id = htmlspecialchars($data['user_id']);
-    $nama_organisasi = htmlspecialchars($data['nama_organisasi']);
-    $alamat = htmlspecialchars($data['alamat']);
-
-    // Cek apakah user_id valid
-    if (empty($user_id)) {
         return false;
     }
 
-    // Query insert data organisasi dengan user_id yang sudah dipilih
-    $query = "INSERT INTO organisasi (user_id, nama_organisasi, alamat)
-              VALUES 
-                ('$user_id', '$nama_organisasi', '$alamat')";
+    // PERUBAHAN: Query INSERT disesuaikan dengan kolom baru
+    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail, kategori_id, id_user)
+              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail', $kategori_id, $id_user)";
 
     mysqli_query($conn, $query);
-
     return mysqli_affected_rows($conn);
 }
-// Fungsi untuk menghapus data aktivitas
+
+// Fungsi untuk menambah kategori baru
+function tambah_kategori($data)
+{
+    $conn = koneksi();
+
+    // PERUBAHAN: Hanya mengambil nama_kategori
+    $nama_kategori = htmlspecialchars($data['nama_kategori']);
+
+    // PERUBAHAN: Query INSERT disesuaikan untuk tabel 'kategori'
+    $query = "INSERT INTO kategori (nama_kategori) VALUES ('$nama_kategori')";
+
+    mysqli_query($conn, $query);
+    return mysqli_affected_rows($conn);
+}
+
+// Fungsi untuk menghapus data aktivitas (Tidak ada perubahan)
 function hapus_aktivitas($id)
 {
     $conn = koneksi();
-    // Ambil nama file foto sebelum menghapus data dari DB
     $aktivitas = query("SELECT foto FROM aktivitas WHERE id = $id");
     if ($aktivitas) {
         $foto = $aktivitas[0]['foto'];
-        // Jika nama foto bukan default, hapus filenya dari folder img
         if ($foto != 'nophoto.jpg' && file_exists('../img/' . $foto)) {
             unlink('../img/' . $foto);
         }
@@ -128,11 +113,12 @@ function hapus_aktivitas($id)
     return mysqli_affected_rows($conn);
 }
 
-// Fungsi untuk menghapus data organisasi
-function hapus_organisasi($id)
+// Fungsi untuk menghapus data kategori
+function hapus_kategori($id)
 {
     $conn = koneksi();
-    mysqli_query($conn, "DELETE FROM organisasi WHERE id = $id");
+    // PERUBAHAN: Menghapus dari tabel 'kategori'
+    mysqli_query($conn, "DELETE FROM kategori WHERE id = $id");
     return mysqli_affected_rows($conn);
 }
 
@@ -141,9 +127,9 @@ function ubah_aktivitas($data)
 {
     $conn = koneksi();
 
-    // Ambil data dari form
     $id = $data['id'];
-    $organisasi_id = htmlspecialchars($data['organisasi_id']);
+    // PERUBAHAN: Mengambil kategori_id
+    $kategori_id = htmlspecialchars($data['kategori_id']);
     $id_user = 6;
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
@@ -151,115 +137,83 @@ function ubah_aktivitas($data)
     $detail = htmlspecialchars($data['detail']);
     $fotoLama = htmlspecialchars($data['fotoLama']);
 
-    // Cek apakah user memilih gambar baru atau tidak
     if ($_FILES['foto']['error'] === 4) {
-        // Jika tidak ada gambar baru diupload, gunakan nama foto lama
         $foto = $fotoLama;
     } else {
-        // Jika ada gambar baru, panggil fungsi upload
         $foto = upload();
-        // Jika upload gagal, hentikan proses
         if (!$foto) {
             return false;
         }
-        // Hapus file foto lama jika bukan gambar default
         if ($fotoLama != 'nophoto.jpg' && file_exists('../img/' . $fotoLama)) {
             unlink('../img/' . $fotoLama);
         }
     }
 
-    // Query update data
+    // PERUBAHAN: Query UPDATE disesuaikan
     $query = "UPDATE aktivitas SET
-                organisasi_id = '$organisasi_id',
+                kategori_id = '$kategori_id',
                 id_user = '$id_user',
                 nama_aktivitas = '$nama_aktivitas',
                 email = '$email',
                 alamat = '$alamat',
                 detail = '$detail',
                 foto = '$foto'
-              WHERE id = $id
-            ";
+              WHERE id = $id";
 
     mysqli_query($conn, $query);
-
     return mysqli_affected_rows($conn);
 }
 
-// Fungsi untuk mengubah data organisasi
-function ubah_organisasi($data)
+// Fungsi untuk mengubah data kategori
+function ubah_kategori($data)
 {
     $conn = koneksi();
 
-    // Ambil data dari form
     $id = $data['id'];
-    $nama_organisasi = htmlspecialchars($data['nama_organisasi']);
-    $alamat = htmlspecialchars($data['alamat']);
+    // PERUBAHAN: Mengambil nama_kategori
+    $nama_kategori = htmlspecialchars($data['nama_kategori']);
 
-    // Query update data
-    $query = "UPDATE organisasi SET
-                nama_organisasi = '$nama_organisasi',
-                alamat = '$alamat'
-              WHERE id = $id
-            ";
+    // PERUBAHAN: Query UPDATE disesuaikan untuk tabel 'kategori'
+    $query = "UPDATE kategori SET
+                nama_kategori = '$nama_kategori'
+              WHERE id = $id";
 
     mysqli_query($conn, $query);
-
     return mysqli_affected_rows($conn);
 }
 
-// Fungsi untuk mencari data aktivitas
+// Fungsi untuk mencari data aktivitas (Tidak ada perubahan)
 function cari_aktivitas($keyword)
 {
     $conn = koneksi();
-
     $query = "SELECT * FROM aktivitas
               WHERE
                 nama_aktivitas LIKE '%$keyword%' OR
                 detail LIKE '%$keyword%' OR
                 alamat LIKE '%$keyword%'
-              ORDER BY id DESC
-            ";
-
+              ORDER BY id DESC";
     return query($query);
 }
 
-// Fungsi untuk mencari data organisasi
-function cari_organisasi($keyword)
+// Fungsi untuk mencari data kategori
+function cari_kategori($keyword)
 {
+    // PERUBAHAN: Fungsi ini diganti dari cari_organisasi
     $keyword_escaped = mysqli_real_escape_string(koneksi(), $keyword);
 
-    $query = "SELECT * FROM organisasi
+    // PERUBAHAN: Query disesuaikan untuk tabel 'kategori'
+    $query = "SELECT * FROM kategori
               WHERE
-                nama_organisasi LIKE '%$keyword_escaped%' OR
-                alamat LIKE '%$keyword_escaped%'
-              ORDER BY id DESC
-            ";
-
+                nama_kategori LIKE '%$keyword_escaped%'
+              ORDER BY id DESC";
     return query($query);
 }
 
-// uploud lowongan dari user
-function tambah_lowongan($data)
+// DIHAPUS/DIARSIPKAN: Fungsi tambah_lowongan sudah tidak sesuai lagi.
+// Sebaiknya Anda menggunakan fungsi tambah_aktivitas() yang sudah diperbarui.
+/* function tambah_lowongan($data)
 {
-    $conn = koneksi();
-
-    $organisasi_id = 2;
-    $id_user = 8;
-    $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
-    $email = htmlspecialchars($data['email']);
-    $alamat = htmlspecialchars($data['alamat']);
-    $detail = htmlspecialchars($data['detail']);
-    // $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
-
-    // Panggil fungsi upload
-    $foto = upload();
-    if (!$foto) {
-        return false; // Jika upload gagal, hentikan proses
-    }
-
-    $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail,organisasi_id,id_user)
-              VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail',$organisasi_id,$id_user)";
-
-    mysqli_query($conn, $query);
-    return mysqli_affected_rows($conn);
+    // ... kode lama ...
 }
+*/
+?>
