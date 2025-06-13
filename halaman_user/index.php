@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+// koneksi funtion
 require '../admin_panel/functions.php';
 $title = "Selamat Datang di RelawanConnect";
 
@@ -46,6 +46,7 @@ require 'partials/navbar.php';
             <h2 class="text-center mb-4">Aktivitas Terbaru</h2>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 
+            <!-- jika kosong muncul tampilan ini -->
                 <?php if (empty($aktivitas_list)) : ?>
                     <div class="col-12">
                         <p class="text-center text-muted">Belum ada aktivitas yang tersedia saat ini.</p>
