@@ -31,7 +31,7 @@ require 'partials/navbar.php';
     <!-- Bagian Hero -->
     <header class="hero-section">
         <div class="container">
-            <h1 class="display-4">Ambil Peran Jadi Relawan</h1>
+            <h1 class="display-4">RelawanConnect</h1>
             <p class="lead mb-4">Ubah niat baik jadi aksi baik hari ini</p>
             <a href="search.php" class="btn btn-main">Cari Semua Aktivitas</a>
         </div>

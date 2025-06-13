@@ -1,4 +1,9 @@
 <?php
+// Pastikan sesi dimulai jika diperlukan untuk navbar
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require '../admin_panel/functions.php';
 $title = 'Cari Aktivitas';
 

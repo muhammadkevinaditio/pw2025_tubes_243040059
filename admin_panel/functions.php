@@ -209,11 +209,4 @@ function cari_kategori($keyword)
     return query($query);
 }
 
-// DIHAPUS/DIARSIPKAN: Fungsi tambah_lowongan sudah tidak sesuai lagi.
-// Sebaiknya Anda menggunakan fungsi tambah_aktivitas() yang sudah diperbarui.
-/* function tambah_lowongan($data)
-{
-    // ... kode lama ...
-}
-*/
 ?>
