@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
             <div class="card p-4 shadow-sm">
                 <form action="" method="post" enctype="multipart/form-data">
                     
-                    <!-- PERUBAHAN: Dropdown untuk memilih Kategori -->
+                    <!-- Dropdown untuk memilih Kategori -->
                     <div class="mb-3">
                         <label for="kategori_id" class="form-label">Pilih Kategori</label>
                         <select class="form-select" name="kategori_id" id="kategori_id" required>

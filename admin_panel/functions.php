@@ -21,7 +21,7 @@ function query($query)
     return $rows;
 }
 
-// Fungsi untuk menangani upload file gambar (Tidak ada perubahan di sini)
+// Fungsi untuk menangani upload file gambar 
 function upload()
 {
     $namaFile = $_FILES['foto']['name'];
@@ -61,9 +61,9 @@ function tambah_aktivitas($data)
 {
     $conn = koneksi();
 
-    // PERUBAHAN: Mengambil kategori_id, bukan organisasi_id
+    //  Mengambil kategori_id, bukan organisasi_id
     $kategori_id = htmlspecialchars($data['kategori_id']); 
-    $id_user = 6; // Nanti bisa diganti dengan ID dari session
+    $id_user = 6;
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
     $email = htmlspecialchars($data['email']);
     $alamat = htmlspecialchars($data['alamat']);
@@ -74,7 +74,7 @@ function tambah_aktivitas($data)
         return false;
     }
 
-    // PERUBAHAN: Query INSERT disesuaikan dengan kolom baru
+    //  Query INSERT disesuaikan dengan kolom baru
     $query = "INSERT INTO aktivitas (nama_aktivitas, email, alamat, foto, detail, kategori_id, id_user)
               VALUES ('$nama_aktivitas', '$email', '$alamat', '$foto', '$detail', $kategori_id, $id_user)";
 
@@ -87,17 +87,17 @@ function tambah_kategori($data)
 {
     $conn = koneksi();
 
-    // PERUBAHAN: Hanya mengambil nama_kategori
+    // : Hanya mengambil nama_kategori
     $nama_kategori = htmlspecialchars($data['nama_kategori']);
 
-    // PERUBAHAN: Query INSERT disesuaikan untuk tabel 'kategori'
+    // : Query INSERT disesuaikan untuk tabel 'kategori'
     $query = "INSERT INTO kategori (nama_kategori) VALUES ('$nama_kategori')";
 
     mysqli_query($conn, $query);
     return mysqli_affected_rows($conn);
 }
 
-// Fungsi untuk menghapus data aktivitas (Tidak ada perubahan)
+// Fungsi untuk menghapus data aktivitas 
 function hapus_aktivitas($id)
 {
     $conn = koneksi();
@@ -117,7 +117,7 @@ function hapus_aktivitas($id)
 function hapus_kategori($id)
 {
     $conn = koneksi();
-    // PERUBAHAN: Menghapus dari tabel 'kategori'
+    // : Menghapus dari tabel 'kategori'
     mysqli_query($conn, "DELETE FROM kategori WHERE id = $id");
     return mysqli_affected_rows($conn);
 }
@@ -128,7 +128,7 @@ function ubah_aktivitas($data)
     $conn = koneksi();
 
     $id = $data['id'];
-    // PERUBAHAN: Mengambil kategori_id
+    // : Mengambil kategori_id
     $kategori_id = htmlspecialchars($data['kategori_id']);
     $id_user = 6;
     $nama_aktivitas = htmlspecialchars($data['nama_aktivitas']);
@@ -149,7 +149,7 @@ function ubah_aktivitas($data)
         }
     }
 
-    // PERUBAHAN: Query UPDATE disesuaikan
+    // : Query UPDATE disesuaikan
     $query = "UPDATE aktivitas SET
                 kategori_id = '$kategori_id',
                 id_user = '$id_user',
@@ -170,10 +170,10 @@ function ubah_kategori($data)
     $conn = koneksi();
 
     $id = $data['id'];
-    // PERUBAHAN: Mengambil nama_kategori
+    // : Mengambil nama_kategori
     $nama_kategori = htmlspecialchars($data['nama_kategori']);
 
-    // PERUBAHAN: Query UPDATE disesuaikan untuk tabel 'kategori'
+    // : Query UPDATE disesuaikan untuk tabel 'kategori'
     $query = "UPDATE kategori SET
                 nama_kategori = '$nama_kategori'
               WHERE id = $id";
@@ -198,10 +198,10 @@ function cari_aktivitas($keyword)
 // Fungsi untuk mencari data kategori
 function cari_kategori($keyword)
 {
-    // PERUBAHAN: Fungsi ini diganti dari cari_organisasi
+    // : Fungsi ini diganti dari cari_organisasi
     $keyword_escaped = mysqli_real_escape_string(koneksi(), $keyword);
 
-    // PERUBAHAN: Query disesuaikan untuk tabel 'kategori'
+    // : Query disesuaikan untuk tabel 'kategori'
     $query = "SELECT * FROM kategori
               WHERE
                 nama_kategori LIKE '%$keyword_escaped%'
