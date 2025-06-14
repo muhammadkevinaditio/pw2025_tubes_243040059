@@ -35,7 +35,9 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
+<!-- header yang ada di folder partials -->
 <?php require('partials/header.php'); ?>
+<!-- navbar yang ada di folder partials -->
 <?php require('partials/navbar.php'); ?>
 
 <div class="container mt-5 mb-5">
@@ -87,4 +89,6 @@ if (isset($_POST['submit'])) {
     </div>
 </div>
 
+
+<!-- footer yang ada di folder -->
 <?php require('partials/footer.php'); ?>

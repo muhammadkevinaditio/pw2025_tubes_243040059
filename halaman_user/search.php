@@ -92,7 +92,9 @@ require 'partials/navbar.php';
                 </div>
             </div>
             <?php endforeach; ?>
-
+        
+            
+        <!-- ketika data yang di seacrh tidak ada -->
         <?php else : ?>
             <div class="col-lg-8">
                 <div class="info-message text-center">

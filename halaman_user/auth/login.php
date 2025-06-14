@@ -4,16 +4,15 @@ session_start();
 // Jika sudah login, langsung arahkan ke halaman yang sesuai dengan rolenya
 if (isset($_SESSION["login"])) {
     if ($_SESSION['role'] == 'admin') {
-        // PERBAIKAN PATH: Naik 1 level ke index.php di halaman_user
+        // jika admin login akan 
         header("Location: ../index.php");
     } else {
-        // PERBAIKAN PATH: Naik 2 level ke halaman_user
         header("Location: ../index.php");
     }
     exit;
 }
 
-// PERBAIKAN PATH: Naik 1 level untuk menemukan functions.php
+// direct ke funtions
 require_once '../../admin_panel/functions.php'; 
 
 if (isset($_POST["login"])) {

@@ -182,7 +182,7 @@ function ubah_kategori($data)
     return mysqli_affected_rows($conn);
 }
 
-// Fungsi untuk mencari data aktivitas (Tidak ada perubahan)
+// Fungsi untuk mencari data aktivitas (
 function cari_aktivitas($keyword)
 {
     $conn = koneksi();

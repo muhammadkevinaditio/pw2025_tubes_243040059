@@ -21,8 +21,8 @@ $aktivitas_list = query("
     LIMIT 6
 ");
 
-// Query kategori sudah dihapus dari sini
 
+// bagian header dan navbar
 require 'partials/header.php';
 require 'partials/navbar.php';
 ?>
@@ -39,7 +39,6 @@ require 'partials/navbar.php';
 
     <main class="container mt-5 mb-5">
         
-        <!-- Bagian Filter Kategori sudah dipindahkan ke search.php -->
 
         <!-- Daftar Aktivitas -->
         <section id="daftar-aktivitas">
@@ -52,6 +51,7 @@ require 'partials/navbar.php';
                         <p class="text-center text-muted">Belum ada aktivitas yang tersedia saat ini.</p>
                     </div>
                 <?php else: ?>
+                    <!-- bagian tampilan aktivtas -->
                     <?php foreach ($aktivitas_list as $a) : ?>
                     <div class="col">
                         <div class="card h-100 card-activity shadow-sm">
@@ -65,6 +65,7 @@ require 'partials/navbar.php';
                                 </p>
                             </div>
                             <div class="card-footer bg-white border-top-0 pb-3">
+                                <!-- bagian detail -->
                                  <a href="detail_aktivitas.php?id=<?= $a['id']; ?>" class="btn btn-outline-success w-100">Lihat Detail</a>
                             </div>
                         </div>

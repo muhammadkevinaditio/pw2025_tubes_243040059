@@ -1,5 +1,4 @@
 <?php
-// Pastikan sesi dimulai jika diperlukan untuk navbar
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -36,7 +35,7 @@ if (!$aktivitas) {
     exit; // atau header("Location: index.php");
 }
 
-$title = htmlspecialchars($aktivitas['nama_aktivitas']); // Judul halaman dinamis
+$title = htmlspecialchars($aktivitas['nama_aktivitas']); // Judul halaman
 
 require 'partials/header.php';
 require 'partials/navbar.php';
@@ -69,7 +68,7 @@ require 'partials/navbar.php';
                         <i class="bi bi-geo-alt-fill me-2"></i><?= htmlspecialchars($aktivitas['alamat']); ?>
                     </p>
 
-                    <!-- Tombol Aksi (Contoh) -->
+                    <!-- Tombol Aksi -->
                     <div class="d-grid gap-2">
                          <a href="search.php" class="btn btn-outline-secondary">Cari Aktivitas Lain</a>
                     </div>
